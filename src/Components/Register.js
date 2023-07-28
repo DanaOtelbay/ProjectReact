@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -13,32 +14,36 @@ const Register = () => {
       setErrMsg("Fields shouldn't be empty");
       return;
     }
-    var raw = JSON.stringify({
-      "phone_number": `${phoneNumber}`,
-      "username": `${phoneNumber}`,
-      "password": `${password}`,
-      "full_name": `${fullName}`,
-      "owner_id": 1,
-      "currency": 1
-    });
+
+    const userData = {
+      phone_number: phoneNumber,
+      username: phoneNumber,
+      password: password,
+      full_name: fullName,
+      owner_id: 1,
+      currency: 1,
+    };
+
     try {
-      const response =  await fetch(`https://api.ems.test.oxypay.dev/api/v1/register` ,{
+      const response = await fetch('https://api.ems.test.oxypay.dev/api/v1/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        },  
-        body: raw,
+        },
+        body: JSON.stringify(userData),
       });
-      if(!response.ok){
+
+      if (!response.ok) {
         console.error('Response Status:', response.status);
         console.error('Response Text:', await response.text());
-        setErrMsg("Registration failed");
+        setErrMsg('Registration failed');
         return;
       }
-      setSuccess(true); 
+
+      setSuccess(true);
     } catch (err) {
-      console.error("Registration failed:", err);
-      setErrMsg("Registration failed");
+      console.error('Registration failed:', err);
+      setErrMsg('Registration failed');
     }
   };
 
@@ -48,7 +53,7 @@ const Register = () => {
           <section>
             <h1>success!</h1>
             <p>
-              <a href="#">Sign in</a>
+              <Link to="/login">Sign in</Link>
             </p>
           </section>
         ) : (

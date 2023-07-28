@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
 const MainContent = () => {
   return (
    <div className="col-md-6 h-100 p-5 pt-6">
